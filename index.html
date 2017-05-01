@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todoApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Very Simple Todo App</title>
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <!-- endbower -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/app/assets/ie10-viewport-bug-workaround.css">
+  <link rel="stylesheet" href="/app/styles/styles.css">
+  <link rel="stylesheet" href="/app/styles/cover/cover.css">
+  <!-- endinject -->
+</head>
+
+<body ng-controller="todoController as vm">
+  <div class="site-wrapper">
+    <div class="site-wrapper-inner">
+      <div class="cover-container">
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand"><a href="#">FP | Full Stack Todo</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/app/about/about.html">Features</a></li>
+                <li><a href="/app/contact/contact.html">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+          <!-- end nav -->
+        </div>
+        <!-- wrapping my panels and inputs in container to get uniform look -->
+        <div class="container col-md-3">
+          <!--header for panel of todo inputs-->
+          <div class="panel">
+            <div class="panel-heading">
+              <h3>Add Todo Item</h3></div>
+          </div>
+          <!-- panel body which will hold both inputs (text and priority) -->
+          <div class="panel-body">
+            <!-- todo input begins -->
+            <div class="form-group">
+              <label>Text</label>
+              <input type="text" class="form-control" ng-model="vm.todoName">
+            </div>
+            <!-- selector for priorities -->
+            <div class="form-group">
+              <label for="prioritySelector">Priority</label>
+              <select class="form-control" ng-model="vm.todoPriority">
+                                <option class="High high" value="high">high</option>
+                                <option class="Medium medium" value="medium">medium</option>
+                                <option class="Low low" value="low">low</option>
+                            </select>
+            </div>
+          </div>
+          <!-- footer for panel of todo inputs which holds button as well -->
+          <div class="panel">
+            <!-- button to add todo -->
+            <button type="submit" class="btn btn-primary" ng-click="vm.addTodo(vm.todoName, vm.todoPriority)">Add Todo</button>
+          </div>
+        </div>
+        <!-- wrapping my selectors and priority list -->
+        <div class="container col-md-9">
+          <!-- buttons used to order priorities -->
+          <div class="btn-group">
+            <div class="row">
+              <button type="select" class="btn btn-primary" ng-click=" sortBy = 'priority'; reverse = false">Order by highest priority</button>
+              <button type="select" class="btn btn-primary" ng-click="sortBy = '-priority'; reverse = false">Order by lowest priority</button>
+              <button type="select" class="btn btn-primary" ng-click="sortBy = 'name'; reverse = !reverse">Order alphabetically</button>
+            </div>
+          </div>
+          <!-- users todo and priority set wll be inputed here -->
+          <div class="container col-md-12">
+            <!-- <i class="glyphicon glyphicon-remove pull-right"></i> -->
+            <table class="table">
+              <tbody>
+                <tr class="{{data.priority}}" ng-class="{'edited': data.edited}" ng-repeat="data in vm.todos | orderBy : sortBy : reverse">
+                  <td>
+                    <p ng-hide="editing" class="editing-label" ng-click="editing = !editing">
+                      {{data.name}}
+                    </p>
+                    <div>
+                      <input ng-change="data.edited = true" ng-blur="editing = false" ng-show="editing" ng-model="data.name" class="editing-label" type="text" />
+                    </div>
+                  </td>
+                  <td>
+                    <div ng-hide="editing" class="editing-label" ng-click="editing = !editing">
+                      {{data.priority}}
+                    </div>
+                    <div>
+                      <input ng-blur="editing = false" ng-show="editing" ng-model="data.priority" class="editing-label" type="text" />
+                    </div>
+                  </td>
+                  <td><i class="glyphicon glyphicon-remove pull-right" ng-click="vm.deleteTodo(data)"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                    <!-- begin footer -->
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>Full Stack Todo created by <a href="https://fabian-resume.herokuapp.com/">Fabian Martinez</a>, by <a href="https://twitter.com/fabproject">@fabproject</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end footer -->
+    </div>
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- endbower -->
+    <!-- inject:js -->
+    <script src="/app/app.js"></script>
+    <script src="/app/main.controller.js"></script>
+    <script src="/app/main.factory.js"></script>
+    <script src="/app/assets/ie10-viewport-bug-workaround.js"></script>
+    <!-- endinject -->
+</body>
+
+</html>
